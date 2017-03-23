@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/loading_screen_layout"
+    android:background="@drawable/bg">
+
+    <TextView
+        android:text="@string/after_scan_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/afterscan_txt_view"
+        android:textAlignment="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="40sp"
+        android:textStyle="normal|bold"
+        android:textColor="@color/colorAccent5" />
+</LinearLayout>

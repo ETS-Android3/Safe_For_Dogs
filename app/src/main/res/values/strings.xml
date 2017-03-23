@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Safe for dogs?</string>
+    <string name ="scan_btn_txt">click to scan barcode</string>
+    <string name ="ingredients_txt">List of ingredients</string>
+    <string name="product_name_txt">Product Name</string>
+    <string name="title_text">Dog safe?</string>
+    <string name="after_scan_text">Getting Data ... </string>
+    <string name="more_info_btn">Click to open webpage with list of bad ingredients</string>
+</resources>
+

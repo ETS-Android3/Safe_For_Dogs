@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/title_img"
+        android:adjustViewBounds = "true"
+        android:id="@+id/title_img_view" />
+
+    <RelativeLayout
+        android:id="@+id/scan_btn_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp">
+
+        <ImageButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/scan_button"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:background="@null"
+            android:id="@+id/scan_btn"
+            android:onClick="onClick" />
+
+        <TextView
+            android:id="@+id/scan_btn_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/scan_btn"
+            android:layout_alignTop="@id/scan_btn"
+            android:layout_alignRight="@id/scan_btn"
+            android:layout_alignBottom="@id/scan_btn"
+            android:text="@string/scan_btn_txt"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:textStyle="normal|bold"
+            android:textColor="@color/colorAccent2"
+            android:textAllCaps="true"
+            android:textAlignment="center" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/front_img_view"
+        android:background="@null"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/scan_btn_lay"
+        android:layout_below="@id/title_img_view"
+        android:layout_alignParentStart="true"
+        android:adjustViewBounds="true"
+        app:srcCompat="@drawable/front_img" />
+
+
+</RelativeLayout>
