@@ -69,12 +69,20 @@ public class MainActivity extends AppCompatActivity implements OnClickListener{
                 Intent i = new Intent(this, ScanningDataActivity.class);
                 i.putExtra("product url", product_url);
                 startActivity(i);
+            } else {
+                handleUnsupportedScanFormat();
             }
         } else {
             Toast.makeText(this, "Could not complete scan", Toast.LENGTH_SHORT).show();
             Intent go_back = new Intent(this, MainActivity.class);
             startActivity(go_back);
         }
+    }
+
+    private void handleUnsupportedScanFormat() {
+        Toast.makeText(this, "Barcode format not supported.", Toast.LENGTH_SHORT).show();
+        Intent go_back = new Intent(this, MainActivity.class);
+        startActivity(go_back);
     }
 
     @Override

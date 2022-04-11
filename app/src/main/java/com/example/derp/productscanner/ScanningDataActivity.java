@@ -17,6 +17,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.os.AsyncTask;
@@ -53,6 +54,18 @@ public class ScanningDataActivity  extends Activity {
         HttpURLConnection urlConnection;
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            // reset
+            product_url = "";
+            product_img_url = "";
+            product_name = "";
+            product_exist = false;
+            product_safe = true;
+        }
+
+        @Override
         protected String doInBackground(String... args) {
             StringBuilder result = new StringBuilder();
             String line;
@@ -83,20 +96,7 @@ public class ScanningDataActivity  extends Activity {
             check_connection();
             if(connected){
                 //get the json of the product and all the info
-                find_product_info(result.toString());
-
-                //load ingredients of the product and check if safe if the product is found
-                if (product_exist) {
-                    check_if_safe_ingredients();
-                }
-                //if the list of ingredients is empty, put in "no ingredients"
-                if (list_of_ingredients.isEmpty()) {
-                    list_of_ingredients.add("No Ingredients");
-                }
-
-                if(product_exist){
-                    go_to_result();
-                }
+                find_product_info(result);
             }
         }
     }
@@ -113,6 +113,12 @@ public class ScanningDataActivity  extends Activity {
     public void onBackPressed() {
         Intent setIntent = new Intent(this, MainActivity.class);
         startActivity(setIntent);
+    }
+
+    private void handle_no_ingredients() {
+        Toast.makeText(this, "Product does not have ingredient information to determine safety.", Toast.LENGTH_SHORT).show();
+        Intent in = new Intent(this, MainActivity.class);                                   //returns back to main activity if not found
+        startActivity(in);
     }
 
     private void go_to_result(){
@@ -142,20 +148,26 @@ public class ScanningDataActivity  extends Activity {
         try {
             JSONObject json = (JSONObject) new JSONTokener(result).nextValue();
 
-            JSONObject product_json = json.getJSONObject("product");
-            JSONArray ingre = product_json.getJSONArray("ingredients_ids_debug");
+            if (!json.isNull("product")) {
+                JSONObject product_json = json.getJSONObject("product");
+                if (!product_json.isNull("ingredients_text")) {
+                    String ingre = product_json.getString("ingredients_text");
 
-            for (int i = 0; i < ingre.length(); i++) {
-                //populate the array list of ingredients
-                String new_in = ingre.getString(i);
-                new_in = new_in.replace('-', ' ');                                                   //replace dashes with spaces
-                list_of_ingredients.add(new_in.toLowerCase());                                      //populate the list of ingredient's array list
-                //Toast.makeText(this, list_of_ingredients.get(i), Toast.LENGTH_SHORT).show();
+                    list_of_ingredients = new ArrayList<>(Arrays.asList(ingre.split(",")));
+
+                    product_name = (String) product_json.get("product_name");                            //get product name
+                    product_img_url = "";
+                    product_img_url = (String) product_json.get("image_front_url");                         //get product image url
+
+                    //load ingredients of the product and check if safe if the product is found
+                    if (product_exist) {
+                        check_if_safe_ingredients();
+                        go_to_result();
+                    }
+                } else {
+                    handle_no_ingredients();
+                }
             }
-            product_name = (String) product_json.get("generic_name_en");                            //get product name
-            product_img_url = "";
-            product_img_url = (String) product_json.get("image_front_url");                         //get product image url
-
         } catch (Exception e) {
             e.printStackTrace();
         }
